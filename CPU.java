@@ -67,7 +67,6 @@ public class CPU implements constants{
 		
 		//from = 0;
 		job_finished = true;
-		job_on_CPU = null;
 		
 	}
 	
@@ -89,7 +88,6 @@ public class CPU implements constants{
 		
 		//from = 0;
 		job_finished = true;
-		job_on_CPU = null;
 
 	}
 	

@@ -22,10 +22,9 @@ public class myOS implements constants {
 		Display disp = new Display();
 		Finished finished = new Finished();
 		boolean first_job = true;
-		boolean roll_through = false;
 		int jobs_in_system = 0;
 		
-		File input = new File("C:\\Users\\BRAVERUNNER\\Desktop\\scool\\CPS356\\midterm\\test.txt");
+		File input = new File("C:\\Users\\Spencer\\Desktop\\3rd Year - 2nd Semester\\CPS356\\midterm\\test.txt");
 		
 		Scanner input_read = getFile(input);
 		
@@ -34,6 +33,7 @@ public class myOS implements constants {
 			Pcb_Node job = new Pcb_Node();
 			
 			if (info.held_job()) {
+				System.out.println(":held::"+info.get_held_job().get_event_id());
 				event_id = info.get_held_job().get_event_id();
 			} else if (info.get_internal_event() != 'Z') { // internal events have priority
 				event_id = info.get_internal_event();
@@ -45,8 +45,10 @@ public class myOS implements constants {
 					system_catch_up(arrival_time, ready_queue1, ready_queue2, cpu, info);
 				
 				if (info.get_internal_event() != 'Z') {
-					event_id = info.get_internal_event();
+					System.out.println(":held:");
 					info.hold_job(job);
+					info.set_held_job(true);
+					event_id = info.get_internal_event();
 				}
 			}
 			
@@ -57,11 +59,13 @@ public class myOS implements constants {
 					if (info.held_job()) {
 						System.out.println(":release:");
 						job = info.get_held_job();
-						info.hold_job(null);
+						info.set_held_job(false);
 						system_catch_up(arrival_time, ready_queue1, ready_queue2, cpu, info);
 					} else { // set pcb if no previous internal event ran
+						System.out.println(":create:"+event_id);
 						job.set_pcb(event_id, arrival_time, input_read.nextInt(), 
 								input_read.nextInt(), input_read.nextInt());
+						
 					}
 					
 					// catch the system up, unless first job
@@ -73,11 +77,7 @@ public class myOS implements constants {
 					}
 					
 					// check for internal event
-					if (info.get_internal_event() != 'Z') {
-						System.out.println(":held:");
-						info.hold_job(job);
-						roll_through = true;
-					} else if (!first_job) {
+					if (!first_job) {
 						boolean rejected = job_scheduler.insert_to_job_queue(job);
 						
 						show_job(event_id, arrival_time);
@@ -97,7 +97,7 @@ public class myOS implements constants {
 					finished.add_job(info.get_finished_job()); // add job to finished queue
 					info.get_finished_job().set_completion_time(info.get_time()); // set completion time
 					info.more_mem(info.get_finished_job().get_mem_size()); // add mem back to system
-					System.out.println(":" + info.get_time() + ":");
+					System.out.println(":" + info.get_time() + "::");
 					if (ready_queue1.is_empty() && cpu.job_finished())
 						job_scheduler.send_to_ready_queue(ready_queue1, cpu, info);
 					
@@ -106,18 +106,14 @@ public class myOS implements constants {
 					jobs_in_system--; // subtract job from system
 					
 					run_cpu(ready_queue1, ready_queue2, cpu, info); // cycle to new job
-					System.out.println(":" + cpu.get_arrival_time() + ":");
-					roll_through = false;
+					System.out.println("::" + info.held_job() + ":");
+					info.set_internal_event('Z');
 					break;
 					
 				case 'D':
 					system_catch_up(arrival_time, ready_queue1, ready_queue2, cpu, info);
 					show_job(event_id, arrival_time);
 					disp.show(job_scheduler, ready_queue1, cpu, finished, info);
-					break;
-				
-				case 'H':
-					
 					break;
 			}
 			
@@ -156,7 +152,7 @@ public class myOS implements constants {
 			Ready_2 ready_queue2, CPU cpu, Current_Info info) {
 		
 		while (info.get_time() != arrival_time && !cpu.job_finished()) {
-			
+			System.out.println("sys catch up test");
 			if (cpu.cycle_time(arrival_time, info) == 0) {
 				run_cpu(ready_queue1, ready_queue2, cpu, info);
 			}

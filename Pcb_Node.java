@@ -2,12 +2,12 @@ package os;
 
 public class Pcb_Node {
 	private char pcb_event_id;
-	private int arrival_time;
-	private int completion_time;
-	private int job_id;
-	private int mem_size;
-	private int total_run_time;
-	private int remaining_run_time;
+	private int arrival_time = 0;
+	private int completion_time = 0;
+	private int job_id = 0;
+	private int mem_size = 0;
+	private int total_run_time = 0;
+	private int remaining_run_time = 0;
 	
 	/*public pcb_node() {
 		int arrival_time;
