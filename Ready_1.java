@@ -31,6 +31,7 @@ public class Ready_1 implements constants{
 	}
 	
 	public void cycle(CPU cpu, Current_Info info) {
+		System.out.println("-"+queue.get(0).get_total_run_time()+"-");
 		cpu.add(queue.get(0), READY_QUEUE_1_QUANTUM, info);
 		cpu.set_from(1); // from ready queue 1
 		cpu.set_job_finished(false);

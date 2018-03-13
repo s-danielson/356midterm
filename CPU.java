@@ -54,7 +54,7 @@ public class CPU implements constants{
 	}
 	public void cycle1(Ready_1 queue1, Ready_2 queue2, Current_Info info) {
 		
-		if (job_on_CPU.get_remaining_run_time() > READY_QUEUE_1_QUANTUM) {
+		if (job_on_CPU.get_remaining_run_time() > remaining_burst_time) {
 			info.add_time(remaining_burst_time); // add time to total time
 			job_on_CPU.sub_remaining_run_time(remaining_burst_time);
 			queue2.add_job(job_on_CPU);
@@ -67,6 +67,7 @@ public class CPU implements constants{
 		
 		//from = 0;
 		job_finished = true;
+		job_on_CPU = null;
 		
 	}
 	
@@ -74,7 +75,7 @@ public class CPU implements constants{
 		
 		// if the remaining run time exceeds the time quantum, 
 			// send to back of ready 2
-		if (job_on_CPU.get_remaining_run_time() > READY_QUEUE_2_QUANTUM) {
+		if (job_on_CPU.get_remaining_run_time() > remaining_burst_time) {
 			info.add_time(remaining_burst_time); // add time to total time
 			queue2.add_job(job_on_CPU); // add job to back of rq2
 			job_on_CPU.sub_remaining_run_time(remaining_burst_time);
@@ -93,19 +94,19 @@ public class CPU implements constants{
 	}
 	
 	public int cycle_time(int time, Current_Info info) {
-		//System.out.println("1:" + remaining_burst_time + ":");
+		System.out.println("1:" + remaining_burst_time + ":");
 		if ((time - info.get_time()) > remaining_burst_time) {
-			//System.out.println("test1");
+			System.out.println("test1");
 			return 0;
 		} else if ((time - info.get_time()) == remaining_burst_time) {
-			//System.out.println("test2");
+			System.out.println("test2");
 			return 0;
 		} else { 
-			//System.out.println("2:" + (time - info.get_time()) + ":");
+			System.out.println("2:" + (time - info.get_time()) + ":");
 			remaining_burst_time -= (time - info.get_time());
 			job_on_CPU.sub_remaining_run_time(time - info.get_time());
 			info.set_time(time);
-			//System.out.println("test3");
+			System.out.println("test3");
 			return 1;
 		}
 	}

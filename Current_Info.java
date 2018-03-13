@@ -7,8 +7,8 @@ public class Current_Info implements constants{
 	private static char internal_event = 'Z';
 	private static int internal_arrival_time;
 	private static Pcb_Node finished_job;
-	private static Pcb_Node hold_job = null;
-	private static boolean change_job = false;
+	private Pcb_Node hold_job = null;
+	private boolean held_job = false;
 	
 	public Current_Info() {
 		
@@ -67,18 +67,15 @@ public class Current_Info implements constants{
 	public void hold_job(Pcb_Node job) {
 		hold_job = job;
 		if (job != null)
-			change_job = true;
+			held_job = true;
 		else 
-			change_job = false;
+			held_job = false;
 	}
 	
-	public void set_change_job(boolean b) {
-		change_job = b;
+	public boolean held_job() {
+		return held_job;
 	}
-	
-	public boolean change_job() {
-		return change_job;
-	}
+
 	public Pcb_Node get_held_job() {
 		return hold_job;
 	}

@@ -1,7 +1,7 @@
 package os;
 
 public class Pcb_Node {
-	private char event_id;
+	private char pcb_event_id;
 	private int arrival_time;
 	private int completion_time;
 	private int job_id;
@@ -18,7 +18,7 @@ public class Pcb_Node {
 	}*/
 	
 	public void set_pcb(char eid, int at, int jid, int ms, int trt) {
-		event_id = eid;
+		pcb_event_id = eid;
 		arrival_time = at;
 		job_id = jid;
 		mem_size = ms;
@@ -26,6 +26,10 @@ public class Pcb_Node {
 	}
 	
 	// getters
+	public char get_event_id() {
+		return pcb_event_id;
+	}
+	
 	public int get_arrival_time() {
 		return arrival_time;
 	}
