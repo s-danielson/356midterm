@@ -8,4 +8,6 @@ public interface constants {
 	public static final char TIME_QUANTUM_EXPIRATION = 'E';
 	public static final char IO_COMPLETION = 'C';
 	public static final char JOB_NEEDS_IO = 'I';
+	public static final int READY_QUEUE_1_QUANTUM = 100;
+	public static final int READY_QUEUE_2_QUANTUM = 300;
 }

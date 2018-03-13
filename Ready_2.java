@@ -2,11 +2,11 @@ package os;
 
 import java.util.ArrayList;
 
-public class Ready_1 implements constants{
+public class Ready_2 implements constants{
 	
 	private ArrayList<Pcb_Node> queue = new ArrayList<Pcb_Node>();
 	
-	public Ready_1() {
+	public Ready_2() {
 		
 	}
 	
@@ -30,12 +30,10 @@ public class Ready_1 implements constants{
 		return queue.isEmpty();
 	}
 	
-	public void cycle(CPU cpu, Current_Info info) {
-		cpu.add(queue.get(0), READY_QUEUE_1_QUANTUM, info);
-		cpu.set_from(1); // from ready queue 1
+	public void cycle(Ready_1 rq1, CPU cpu, Current_Info info) {
+		cpu.add(queue.get(0), READY_QUEUE_2_QUANTUM, info);
+		cpu.set_from(2);
 		cpu.set_job_finished(false);
-		//info.set_time(queue.get(0).get_arrival_time());
 		queue.remove(0);
 	}
-	
 }
